@@ -26,3 +26,11 @@
 - [x] 依據 GitHub 專案的真實結構，建立 Tic-tac-toe 遊戲介面展示。
 - [x] 只在 Tic-tac-toe 頁籤顯示遊戲介面，保留 Music Project 的結他互動視覺。
 - [x] 移除吉他互動提示文字，並驗證黑白風格與響應式版面一致。
+
+## GitHub Pages 部署清單
+
+- [x] 安裝 gh-pages 開發相依套件。
+- [x] 設定 GitHub Pages 所需的 Vite 基底路徑及 npm 部署腳本。
+- [x] 驗證靜態建置可供 GitHub Pages 使用。
+- [ ] 提供啟用與發布 GitHub Pages 的操作指引。
+- [x] 將目前平台專用的 /manus-storage 圖像路徑換成 GitHub Pages 可公開讀取的靜態資產。

@@ -112,7 +112,7 @@ export default function Home() {
           }}
           transition={{ type: "spring", stiffness: 72, damping: 18 }}
         >
-          <img src="/manus-storage/monochrome-stillscape-hero_4a8463f6.png" alt="寧靜住宅街景與電線桿的黑白攝影" />
+          <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663736439775/avceNgKyrvxgJQGS.png" alt="寧靜住宅街景與電線桿的黑白攝影" />
         </motion.div>
         <motion.div
           className="hero-weather-line"
@@ -196,7 +196,7 @@ export default function Home() {
                 transition={{ type: "spring", stiffness: 142, damping: 16, mass: .72 }}
               >
                 <motion.img
-                  src="/manus-storage/monochrome-guitar-depth_6637baf4.png"
+                  src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663736439775/zBVkVlYYqwxeegoM.png"
                   alt="近距離拍攝的黑白木結他琴弦與指板"
                   animate={{ x: guitarPointer.x * -56, y: guitarPointer.y * -31, scale: guitarPointer.active ? 1.25 : 1.06 }}
                   transition={{ type: "spring", stiffness: 150, damping: 18 }}
@@ -233,7 +233,7 @@ export default function Home() {
 
       <section className="landscape-break" aria-label="山景分隔圖">
         <motion.img
-          src="/manus-storage/monochrome-hills-divider_c29a134b.png"
+          src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663736439775/ZvenBXRPcYEOQcJG.png"
           alt="雲霧下的黑白山坡"
           animate={isPaused || reduceMotion ? {} : { scale: [1.02, 1.09, 1.02], x: [0, -12, 0] }}
           transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
