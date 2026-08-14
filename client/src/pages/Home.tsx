@@ -122,7 +122,7 @@ export default function Home() {
         <div className="hero-title">
           <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .45 }}>TELFORD HO / SYSTEM ANALYST &amp; FULL-STACK ENGINEER</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 46 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7, ease: [0.23, 1, 0.32, 1] }}>
-            把複雜系統，<br /><em>變成清楚體驗。</em>
+            <span className="headline-lead">化繁為簡，</span><br /><em>從零開始入手。</em>
           </motion.h1>
           <motion.span
             className="hero-motion-note"
@@ -238,20 +238,20 @@ export default function Home() {
           animate={isPaused || reduceMotion ? {} : { scale: [1.02, 1.09, 1.02], x: [0, -12, 0] }}
           transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
         />
-        <p>留一段空白，讓目光回來。</p>
+        <p>留白，驀然回首</p>
       </section>
 
       <section id="about" className="about-sheet">
         <p className="section-tag">about.</p>
         <aside className="about-rail"><span>03</span><i /><small>WHY THIS MOVES</small></aside>
         <div>
-          <h2>系統設計，<br /><em>由需求走到交付。</em></h2>
+          <h2><span className="headline-lead">從零到一，</span><br /><em>建構無限。</em></h2>
           <p>現任 FWD Insurance System Analyst，專注把業務需求與監管考量轉化為可擴展的技術方案。過去逾五年，我在 Angular、React、Node.js 及企業系統開發中累積全端經驗，也持續把生成式 AI 整合到工程流程。</p>
         </div>
       </section>
 
       <section className="career-sheet" aria-label="工作經歷與技術能力">
-        <div className="career-intro"><span>EXPERIENCE / SKILLS</span><h2>工程能力，<br />不止寫程式。</h2></div>
+        <div className="career-intro"><span>EXPERIENCE / SKILLS</span><h2><span className="headline-lead">就聽，</span><br />你想要什麼</h2></div>
         <div className="career-list">
           <article><span>2021 — NOW</span><div><h3>FWD Insurance</h3><p>System Analyst；曾任 Senior Analyst Programmer 及 Analyst Programmer。負責保險系統設計、Angular 前後端優化、程式碼審查與生成式 AI 開發流程整合。</p></div></article>
           <article><span>2019 — 2021</span><div><h3>dRoW Limited</h3><p>Software Engineer。以 Angular 建立流動響應式介面，並以 Node.js 及 SendGrid 建立自動電郵派發系統。</p></div></article>
