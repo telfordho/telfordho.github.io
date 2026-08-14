@@ -95,9 +95,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
 .focus-mark { right: 0; top: 12px; }
 .guitar-folio { bottom: -30px; font-family: "IBM Plex Mono", monospace; font-size: 8px; letter-spacing: .11em; position: absolute; right: 0; z-index: 3; }
 .guitar-note { align-items: flex-start; bottom: 11px; display: flex; font-family: "IBM Plex Mono", monospace; font-size: 9px; gap: 8px; left: -72px; letter-spacing: .02em; line-height: 1.5; max-width: 155px; position: absolute; }
-.guitar-piece > button { align-items: center; background: var(--ink); bottom: 14px; color: white; cursor: pointer; display: flex; font-size: 10px; gap: 20px; left: 84px; padding: 12px 14px; position: absolute; transition: transform .18s var(--ease), background .18s var(--ease); }
-.guitar-piece > button:hover { background: #555; transform: translateY(-4px); }
-.guitar-piece > button:active { transform: scale(.97); }
+.repository-link { align-items: center; background: var(--ink); bottom: 14px; color: white; display: flex; font-size: 10px; gap: 20px; left: 84px; padding: 12px 14px; position: absolute; text-decoration: none; transition: transform .18s var(--ease), background .18s var(--ease); }
+.repository-link:hover { background: #555; transform: translateY(-4px); }
+.repository-link:active { transform: scale(.97); }
 
 .landscape-break { height: min(54vw, 610px); overflow: hidden; position: relative; }
 .landscape-break::after { background: linear-gradient(0deg, rgba(0,0,0,.35), transparent 42%); content: ""; inset: 0; position: absolute; }
@@ -111,12 +111,25 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
 .about-sheet h2 { font-family: "DM Serif Display", serif; font-size: clamp(3.6rem, 7vw, 7.8rem); font-weight: 400; letter-spacing: -.075em; line-height: .8; margin: 0; }
 .about-sheet h2 em { font-style: italic; }
 .about-sheet div > p { color: var(--quiet); font-size: 13px; line-height: 1.7; margin: 48px 0 0 23%; max-width: 310px; }
-.quiet-footer { align-items: center; background: var(--ink); color: var(--paper); display: grid; grid-template-columns: 1fr auto 1fr; min-height: 130px; padding: 0 8.8vw; }
+.career-sheet { border-top: 1px solid var(--ink); display: grid; grid-template-columns: .72fr 1.28fr; gap: 6vw; padding: 9vw 8.8vw; position: relative; }
+.career-intro > span, .skills-line > span { font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .11em; }
+.career-intro h2 { font-family: "DM Serif Display", serif; font-size: clamp(2.9rem, 4.8vw, 5.4rem); font-weight: 400; letter-spacing: -.07em; line-height: .81; margin: 25px 0 0; }
+.career-list { border-top: 1px solid var(--ink); }
+.career-list article { border-bottom: 1px solid var(--line); display: grid; gap: 28px; grid-template-columns: 92px 1fr; padding: 20px 0; }
+.career-list article > span { font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .08em; }
+.career-list h3 { font-family: "DM Serif Display", serif; font-size: 25px; font-weight: 400; letter-spacing: -.04em; margin: 0; }
+.career-list p { color: var(--quiet); font-size: 11px; line-height: 1.6; margin: 7px 0 0; max-width: 510px; }
+.skills-line { border-top: 1px solid var(--ink); grid-column: 1 / -1; margin-top: 5vw; padding-top: 16px; }
+.skills-line p { font-family: "DM Serif Display", serif; font-size: clamp(1.6rem, 3vw, 3.2rem); letter-spacing: -.055em; line-height: .93; margin: 18px 0; max-width: 960px; }
+.skills-line > span:last-child { color: var(--quiet); }
+.quiet-footer { align-items: center; background: var(--ink); color: var(--paper); display: grid; grid-template-columns: .7fr 1.6fr .7fr; min-height: 150px; padding: 0 8.8vw; }
 .quiet-footer p, .quiet-footer span { font-family: "DM Serif Display", serif; font-size: 28px; margin: 0; }
 .quiet-footer a { align-items: center; color: var(--paper); display: flex; font-size: 12px; gap: 10px; text-decoration: none; transition: opacity .18s var(--ease), transform .18s var(--ease); }
 .quiet-footer a:hover { opacity: .62; transform: translateY(-3px); }
 .quiet-footer span { font-family: "IBM Plex Mono", monospace; font-size: 10px; justify-self: end; }
 .footer-folio { border-left: 1px solid rgba(246,246,244,.65); padding-left: 9px; }
+.footer-links { align-items: center; display: flex; flex-wrap: wrap; gap: 12px 22px; }
+.footer-links a:not(:first-child) { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
 
 .detail-panel { background: var(--paper); border-left: 1px solid var(--ink); bottom: 0; display: flex; flex-direction: column; padding: 28px 4vw 42px; position: fixed; right: 0; top: 0; width: min(510px, 100vw); z-index: 40; }
 .panel-bar { align-items: center; border-bottom: 1px solid var(--ink); display: flex; font-family: "IBM Plex Mono", monospace; font-size: 10px; justify-content: space-between; letter-spacing: .09em; padding-bottom: 16px; }
@@ -165,7 +178,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
   .guitar-piece { height: 500px; margin: 22vw 0 0 auto; width: 78vw; }
   .guitar-picture { height: 390px; width: 74vw; }
   .guitar-note { bottom: 63px; left: -20px; }
-  .guitar-piece > button { bottom: 13px; left: 0; }
+  .repository-link { bottom: 13px; left: 0; }
   .landscape-break { height: 79vw; }
   .landscape-break p { bottom: 13%; font-size: 3.4rem; left: 24px; max-width: 250px; }
   .about-sheet { display: block; min-height: 0; padding: 21vw 24px; }
@@ -173,6 +186,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
   .about-sheet div { margin-top: 17vw; }
   .about-sheet h2 { font-size: 4.6rem; }
   .about-sheet div > p { margin: 38px 0 0 14%; }
+  .career-sheet { display: block; padding: 20vw 24px; }
+  .career-list { margin-top: 15vw; }
+  .career-list article { gap: 13px; grid-template-columns: 1fr; }
+  .skills-line { margin-top: 16vw; }
   .quiet-footer { display: flex; flex-direction: column; align-items: flex-start; gap: 30px; min-height: 220px; padding: 38px 24px; }
   .quiet-footer span { align-self: flex-end; }
 }

@@ -3,21 +3,25 @@
  * 保留明顯的游標推近與視差，但令每一下移動像鏡頭慢慢靠近靜物，而非裝飾性特效；每段均保留出版物式邊註或頁碼軌。
  */
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowDown, ArrowUpRight, ChevronRight, Move, Pause, Play, Plus, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, ChevronRight, Move, Pause, Play, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const GALLERY = [
   {
     id: "01",
-    name: "視線拉近",
-    label: "STILL / PULL",
-    copy: "先別急著看完。留白令移動有位置，焦點才知道要往哪裡走。",
+    name: "Music Project",
+    label: "NODE.JS / FULL-STACK",
+    copy: "一個以 Node.js 建構的音樂專案，涵蓋登入、路由、上載、資料庫初始化與 session 設定。",
+    url: "https://github.com/telfordho/Music-Project",
+    action: "查看 Music Project",
   },
   {
     id: "02",
-    name: "兩種讀法",
-    label: "RHYTHM / UNFOLD",
-    copy: "同一個作品，可以被靜看，也可以被推近。你正在決定它的閱讀速度。",
+    name: "Tic-tac-toe",
+    label: "TYPESCRIPT / INTERACTION",
+    copy: "以 TypeScript 製作的公開互動練習，聚焦清晰的前端狀態與遊戲邏輯。",
+    url: "https://github.com/telfordho/Tic-tac-toe",
+    action: "查看 Tic-tac-toe",
   },
 ];
 
@@ -38,14 +42,14 @@ function DetailPanel({ open, onClose }: { open: boolean; onClose: () => void }) 
             <button onClick={onClose} aria-label="關閉作品段落"><X size={19} /></button>
           </div>
           <div className="panel-copy">
-            <p>不是一下子展示所有內容。</p>
-            <h2>靠近一點，<br /><em>再聽清楚。</em></h2>
+            <p>我的工作方式</p>
+            <h2>由需求開始，<br /><em>以清晰交付。</em></h2>
           </div>
           <div className="panel-steps">
             {[
-              ["01", "看見", "畫面先留下空間。"],
-              ["02", "靠近", "互動把焦點拉到眼前。"],
-              ["03", "理解", "內容才慢慢說出原因。"],
+              ["01", "對齊", "理解業務目標、使用者與限制。"],
+              ["02", "建構", "以可維護的前後端方案完成系統。"],
+              ["03", "加速", "把 AI 工具納入工程流程，提升交付效率。"],
             ].map(([number, title, copy], index) => (
               <motion.article
                 key={number}
@@ -104,7 +108,7 @@ export default function Home() {
       <header className="quiet-header">
         <a href="#home" className="quiet-brand" aria-label="返回首頁">
           <span className="brand-mark"><i /><b /></span>
-          <span className="brand-name">STUDIO<br />NOTE</span>
+          <span className="brand-name">TELFORD<br />HO</span>
         </a>
         <nav aria-label="主要導覽">
           <a href="#work">Projects</a>
@@ -137,20 +141,20 @@ export default function Home() {
           transition={{ type: "spring", stiffness: 95, damping: 17 }}
         />
         <div className="hero-title">
-          <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .45 }}>PORTFOLIO / 2026</motion.p>
+          <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .45 }}>TELFORD HO / SYSTEM ANALYST &amp; FULL-STACK ENGINEER</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 46 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7, ease: [0.23, 1, 0.32, 1] }}>
-            先留白。<br /><em>再靠近。</em>
+            把複雜系統，<br /><em>變成清楚體驗。</em>
           </motion.h1>
           <motion.span
             className="hero-motion-note"
             animate={isPaused || reduceMotion ? { opacity: .58 } : { y: [-3, 5, -3] }}
             transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-          >游標先移動，景色才開始回應。</motion.span>
+          >5+ 年全端開發、系統設計及 AI 工程流程經驗。</motion.span>
         </div>
         <aside className="hero-rail"><span>01</span><i /><small>LOOK / MOVE / NOTICE</small></aside>
-        <div className="hero-side-note">靜景裡的<br />動態筆記</div>
+        <div className="hero-side-note">SYSTEM DESIGN<br />WITH CLARITY</div>
         <div className="hero-controls">
-          <button className="inverse-button" onClick={() => setDrawerOpen(true)}>進入作品 <ArrowUpRight size={16} /></button>
+          <button className="inverse-button" onClick={() => setDrawerOpen(true)}>了解工作方式 <ArrowUpRight size={16} /></button>
           <button className="ghost-button" onClick={() => setIsPaused((value) => !value)}>
             {isPaused ? <Play size={14} /> : <Pause size={14} />}{isPaused ? "播放動態" : "暫停動態"}
           </button>
@@ -161,7 +165,7 @@ export default function Home() {
       <section id="work" className="work-sheet">
         <div className="sheet-topline">
           <span>projects.</span>
-          <span>兩種閱讀方式。<br />一次只看一件事。</span>
+          <span>公開程式碼與前端互動。<br />一次看一個實作方向。</span>
         </div>
         <aside className="sheet-rail"><span>02</span><i /><small>PROJECT / READING MODES</small></aside>
         <div className="gallery-tabs" role="tablist" aria-label="互動示範選擇">
@@ -184,7 +188,7 @@ export default function Home() {
             <span>{GALLERY[active].label}</span>
             <h2>{GALLERY[active].name}</h2>
             <p>{GALLERY[active].copy}</p>
-            <div className="reading-ledger"><span>PAGE {active + 1} / 2</span><span>{active === 0 ? "先看琴弦的方向。" : "再比較移動的距離。"}</span></div>
+            <div className="reading-ledger"><span>REPOSITORY {active + 1} / 2</span><span>{active === 0 ? "Node.js、OAuth、Redis、Database。" : "TypeScript 互動與狀態邏輯。"}</span></div>
           </motion.div>
         </AnimatePresence>
 
@@ -211,15 +215,15 @@ export default function Home() {
               animate={{ x: guitarPointer.x * -56, y: guitarPointer.y * -31, scale: guitarPointer.active ? 1.25 : 1.06 }}
               transition={{ type: "spring", stiffness: 150, damping: 18 }}
             />
-            <span className="guitar-label">GUITAR / DEPTH</span>
+            <span className="guitar-label">GUITAR / INTERACTION STUDY</span>
             <span className="focus-mark">FOCUS {Math.round((guitarPointer.x + .5) * 100).toString().padStart(2, "0")}</span>
-            <span className="guitar-folio">{active === 0 ? "STILL READING" : "MOTION READING"}</span>
+            <span className="guitar-folio">PUBLIC REPOSITORY</span>
           </motion.div>
           <div className="guitar-note">
             <Move size={15} />
-            <span>把游標放進琴弦，鏡頭便會向它靠近。</span>
+            <span>互動示範：游標推近時，鏡頭會跟隨焦點。</span>
           </div>
-          <button onClick={() => setGuitarPointer({ x: .37, y: -.22, active: true })}>推近吉他 <Plus size={14} /></button>
+          <a className="repository-link" href={GALLERY[active].url} target="_blank" rel="noreferrer"><span>{GALLERY[active].action}</span><ArrowUpRight size={14} /></a>
         </article>
       </section>
 
@@ -237,14 +241,24 @@ export default function Home() {
         <p className="section-tag">about.</p>
         <aside className="about-rail"><span>03</span><i /><small>WHY THIS MOVES</small></aside>
         <div>
-          <h2>看見之前，<br /><em>先讓畫面安靜。</em></h2>
-          <p>我不是要把每個位置都填滿；我想留下可以移動、比較和決定的空間。每一個互動，都是請你再靠近一點。</p>
+          <h2>系統設計，<br /><em>由需求走到交付。</em></h2>
+          <p>現任 FWD Insurance System Analyst，專注把業務需求與監管考量轉化為可擴展的技術方案。過去逾五年，我在 Angular、React、Node.js 及企業系統開發中累積全端經驗，也持續把生成式 AI 整合到工程流程。</p>
         </div>
+      </section>
+
+      <section className="career-sheet" aria-label="工作經歷與技術能力">
+        <div className="career-intro"><span>EXPERIENCE / SKILLS</span><h2>工程能力，<br />不止寫程式。</h2></div>
+        <div className="career-list">
+          <article><span>2021 — NOW</span><div><h3>FWD Insurance</h3><p>System Analyst；曾任 Senior Analyst Programmer 及 Analyst Programmer。負責保險系統設計、Angular 前後端優化、程式碼審查與生成式 AI 開發流程整合。</p></div></article>
+          <article><span>2019 — 2021</span><div><h3>dRoW Limited</h3><p>Software Engineer。以 Angular 建立流動響應式介面，並以 Node.js 及 SendGrid 建立自動電郵派發系統。</p></div></article>
+          <article><span>2018 — 2019</span><div><h3>ICW</h3><p>Software Engineer。以 ReactJS 建立具可重用性及流動兼容性的前端元件。</p></div></article>
+        </div>
+        <div className="skills-line"><span>CORE STACK</span><p>TypeScript · Angular · React · Node.js · Express · PostgreSQL · MongoDB · Azure · Generative AI Integration</p><span>AZURE AI FUNDAMENTALS / AZURE FUNDAMENTALS</span></div>
       </section>
 
       <footer id="contact" className="quiet-footer">
         <p>contact.</p>
-        <a href="mailto:hello@example.com">想讓一件作品更易被看見？ <ArrowUpRight size={18} /></a>
+        <div className="footer-links"><a href="mailto:telfordho@gmail.com">telfordho@gmail.com <ArrowUpRight size={18} /></a><a href="https://github.com/telfordho" target="_blank" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/tingfungho" target="_blank" rel="noreferrer">LinkedIn</a></div>
         <span className="footer-folio">04 / © 2026</span>
       </footer>
 
