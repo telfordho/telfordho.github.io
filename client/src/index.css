@@ -38,6 +38,13 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
 .quiet-header nav a, .header-year { color: var(--ink); font-family: "DM Serif Display", serif; font-size: 18px; text-decoration: none; transition: opacity .2s var(--ease), transform .2s var(--ease); }
 .quiet-header nav a:hover { opacity: .42; transform: translateY(-2px); }
 .header-year { font-family: "IBM Plex Mono", monospace; font-size: 10px; justify-self: end; }
+.header-tools { align-items: center; display: flex; gap: 20px; justify-self: end; }
+.language-switch { border: 1px solid var(--ink); display: inline-flex; font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .08em; }
+.language-switch button { background: transparent; color: var(--ink); cursor: pointer; line-height: 1; min-width: 29px; padding: 8px 7px; transition: background .16s var(--ease), color .16s var(--ease), transform .16s var(--ease); }
+.language-switch button + button { border-left: 1px solid var(--ink); }
+.language-switch button.is-active { background: var(--ink); color: var(--paper); }
+.language-switch button:not(.is-active):hover { background: var(--mist); }
+.language-switch button:active { transform: scale(.94); }
 
 .still-hero { background: #d7d7d5; height: min(760px, calc(100vh - 80px)); min-height: 580px; overflow: hidden; position: relative; }
 .still-photo { height: 116%; inset: -8%; position: absolute; width: 116%; will-change: transform; }
@@ -162,10 +169,14 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
 
 @media (max-width: 780px) {
   .quiet-cursor { display: none; }
-  .quiet-header { grid-template-columns: 1fr auto; min-height: 68px; padding: 0 22px; }
+  .quiet-header { grid-template-columns: auto 1fr auto; min-height: 68px; padding: 0 16px; }
   .quiet-header nav { gap: 15px; }
   .quiet-header nav a { font-size: 15px; }
+  .quiet-header nav { justify-self: center; }
   .header-year { display: none; }
+  .header-tools { gap: 0; }
+  .language-switch { font-size: 8px; }
+  .language-switch button { min-width: 26px; padding: 7px 6px; }
   .still-hero { height: 650px; min-height: 0; }
   .still-photo { height: 122%; inset: -11%; width: 122%; }
   .still-photo::after { background: linear-gradient(90deg, rgba(246,246,244,.78), rgba(246,246,244,.12)); }
