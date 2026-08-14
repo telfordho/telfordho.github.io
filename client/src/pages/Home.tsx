@@ -104,21 +104,26 @@ function HeroArt({
   const movement = shouldReduce || isPaused ? 0 : 1;
 
   return (
-    <motion.div className="hero-art" layout>
+    <motion.div
+      className="hero-art"
+      layout
+      animate={isPaused || shouldReduce ? { y: 0 } : { y: [-12, 12, -12] }}
+      transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut" }}
+    >
       <motion.div
         className="hero-art-shadow"
-        animate={{ x: pointer.x * -12 * movement, y: pointer.y * -9 * movement }}
-        transition={{ type: "spring", stiffness: 80, damping: 18 }}
+        animate={{ x: pointer.x * -48 * movement, y: pointer.y * -35 * movement, rotate: pointer.x * -4 * movement }}
+        transition={{ type: "spring", stiffness: 92, damping: 16 }}
       />
       <motion.div
         className="hero-art-frame"
         animate={{
-          x: pointer.x * 20 * movement,
-          y: pointer.y * 15 * movement,
-          rotate: pointer.x * 1.5 * movement,
-          scale: isPaused ? 1 : 1.015,
+          x: pointer.x * 74 * movement,
+          y: pointer.y * 52 * movement,
+          rotate: pointer.x * 5.5 * movement,
+          scale: isPaused ? 1 : 1.065,
         }}
-        transition={{ type: "spring", stiffness: 75, damping: 18 }}
+        transition={{ type: "spring", stiffness: 86, damping: 15 }}
       >
         <motion.img
           key={concept.image}
@@ -131,8 +136,8 @@ function HeroArt({
       </motion.div>
       <motion.div
         className="art-stamp"
-        animate={{ x: pointer.x * -26 * movement, y: pointer.y * 18 * movement }}
-        transition={{ type: "spring", stiffness: 95, damping: 20 }}
+        animate={{ x: pointer.x * -84 * movement, y: pointer.y * 60 * movement, rotate: -8 + pointer.x * -8 * movement }}
+        transition={{ type: "spring", stiffness: 106, damping: 17 }}
       >
         <span>MOVE</span>
         <ArrowUpRight size={18} strokeWidth={2.4} />
@@ -199,6 +204,7 @@ export default function Home() {
   const [isPaused, setIsPaused] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cursor, setCursor] = useState({ x: -120, y: -120, visible: false });
+  const [pianoPointer, setPianoPointer] = useState({ x: 0, y: 0, active: false });
   const shouldReduce = useReducedMotion();
   const concept = concepts[active];
 
@@ -231,6 +237,15 @@ export default function Home() {
       setIsPaused(false);
       setPointer({ x: 0.33, y: -0.18 });
     }
+  };
+
+  const handlePianoMove = (event: React.MouseEvent<HTMLElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setPianoPointer({
+      x: (event.clientX - rect.left) / rect.width - 0.5,
+      y: (event.clientY - rect.top) / rect.height - 0.5,
+      active: true,
+    });
   };
 
   return (
@@ -359,17 +374,40 @@ export default function Home() {
       </section>
 
       <section className="sample-projects" aria-label="互動細節示範">
-        <article className="project-card detail-card">
+        <article
+          className={`project-card detail-card ${pianoPointer.active ? "is-exploring" : ""}`}
+          onMouseMove={handlePianoMove}
+          onMouseLeave={() => setPianoPointer({ x: 0, y: 0, active: false })}
+        >
           <div className="card-caption">
             <span>MICRO / 01</span>
-            <h2>Hover，讓內容<br />往前一步。</h2>
-            <p>滑過卡片，裁切框先脫離紙面，輔助文字再追上。閱讀次序，也由你推動。</p>
-            <button onClick={() => setPointer({ x: -0.24, y: 0.26 })}>把焦點推到左側 <ChevronRight size={16} /></button>
+            <h2>Hover，讓琴鍵<br />向你靠近。</h2>
+            <p>游標在左，琴鍵往左傾；游標靠近，鏡頭立刻推進。讓縮放本身成為作品的節奏。</p>
+            <button onClick={() => setPianoPointer({ x: 0.42, y: -0.18, active: true })}>推近琴鍵 <ChevronRight size={16} /></button>
           </div>
-          <div className="detail-image-wrap">
-            <img src="/manus-storage/orange-paper-detail_a8da5737.png" alt="橘色紙張與黑色幾何物件組成的抽象作品細節" />
-            <span className="image-label">SYSTEM / MOTION</span>
-          </div>
+          <motion.div
+            className="detail-image-wrap piano-image-wrap"
+            animate={{
+              x: pianoPointer.x * 43,
+              y: pianoPointer.y * 25,
+              rotate: 4 + pianoPointer.x * 10,
+              scale: pianoPointer.active ? 1.16 + Math.abs(pianoPointer.x) * 0.11 : 1,
+            }}
+            transition={{ type: "spring", stiffness: 155, damping: 16, mass: 0.7 }}
+          >
+            <motion.img
+              src="/manus-storage/piano-editorial-hover_6296c54f.png"
+              alt="以近距離廣角拍攝、具有強烈景深的黑色三角鋼琴琴鍵"
+              animate={{
+                scale: pianoPointer.active ? 1.22 + Math.abs(pianoPointer.y) * 0.16 : 1.05,
+                x: pianoPointer.x * -38,
+                y: pianoPointer.y * -24,
+              }}
+              transition={{ type: "spring", stiffness: 145, damping: 17, mass: 0.72 }}
+            />
+            <span className="image-label">PIANO / DEPTH</span>
+            <span className="piano-focus">FOCUS {Math.round((pianoPointer.x + 0.5) * 99).toString().padStart(2, "0")}</span>
+          </motion.div>
         </article>
         <article className="project-card control-card">
           <div className="control-topline">
