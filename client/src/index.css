@@ -46,8 +46,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
 .hero-weather-line { border-left: 1px solid rgba(17,17,17,.72); bottom: 0; height: 55%; left: 62%; position: absolute; transform: rotate(22deg); transform-origin: bottom; width: 1px; z-index: 2; }
 .hero-title { left: 8.8vw; position: absolute; top: 19%; z-index: 3; }
 .hero-title p { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .14em; margin: 0 0 20px; }
-.hero-title h1 { font-family: "DM Serif Display", serif; font-size: clamp(5.2rem, 10vw, 10.6rem); font-weight: 400; letter-spacing: -.075em; line-height: .74; margin: 0; }
-.hero-title h1 em { font-style: italic; margin-left: 5vw; }
+.hero-title h1 { font-family: "DM Serif Display", serif; font-size: clamp(5.2rem, 10vw, 10.6rem); font-weight: 400; letter-spacing: -.075em; line-height: .88; margin: 0; }
+.headline-lead { display: inline-block; font-size: .84em; letter-spacing: -.06em; line-height: .9; }
+.hero-title h1 em { display: inline-block; font-style: italic; margin-left: 5vw; margin-top: .04em; }
 .hero-motion-note { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .08em; margin: 34px 0 0 19vw; }
 .hero-side-note { bottom: 7%; font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .12em; line-height: 1.5; position: absolute; right: 6.5vw; text-align: right; writing-mode: vertical-rl; z-index: 3; }
 .hero-rail, .sheet-rail, .about-rail { align-items: center; display: flex; flex-direction: column; font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .11em; position: absolute; z-index: 4; }
@@ -121,12 +122,12 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
 .about-rail { bottom: 8vw; left: 2.3vw; }
 .about-rail i { height: 122px; }
 .section-tag { font-family: "DM Serif Display", serif; font-size: 34px; margin: 0; }
-.about-sheet h2 { font-family: "DM Serif Display", serif; font-size: clamp(3.6rem, 7vw, 7.8rem); font-weight: 400; letter-spacing: -.075em; line-height: .8; margin: 0; }
-.about-sheet h2 em { font-style: italic; }
+.about-sheet h2 { font-family: "DM Serif Display", serif; font-size: clamp(3.6rem, 7vw, 7.8rem); font-weight: 400; letter-spacing: -.075em; line-height: .9; margin: 0; }
+.about-sheet h2 em { display: inline-block; font-style: italic; margin-top: .05em; }
 .about-sheet div > p { color: var(--quiet); font-size: 13px; line-height: 1.7; margin: 48px 0 0 23%; max-width: 310px; }
 .career-sheet { border-top: 1px solid var(--ink); display: grid; grid-template-columns: .72fr 1.28fr; gap: 6vw; padding: 9vw 8.8vw; position: relative; }
 .career-intro > span, .skills-line > span { font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .11em; }
-.career-intro h2 { font-family: "DM Serif Display", serif; font-size: clamp(2.9rem, 4.8vw, 5.4rem); font-weight: 400; letter-spacing: -.07em; line-height: .81; margin: 25px 0 0; }
+.career-intro h2 { font-family: "DM Serif Display", serif; font-size: clamp(2.9rem, 4.8vw, 5.4rem); font-weight: 400; letter-spacing: -.07em; line-height: .94; margin: 25px 0 0; }
 .career-list { border-top: 1px solid var(--ink); }
 .career-list article { border-bottom: 1px solid var(--line); display: grid; gap: 28px; grid-template-columns: 92px 1fr; padding: 20px 0; }
 .career-list article > span { font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .08em; }
@@ -169,7 +170,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
   .still-photo { height: 122%; inset: -11%; width: 122%; }
   .still-photo::after { background: linear-gradient(90deg, rgba(246,246,244,.78), rgba(246,246,244,.12)); }
   .hero-title { left: 24px; top: 16%; }
-  .hero-title h1 { font-size: clamp(4.2rem, 18vw, 6.8rem); }
+  .hero-title h1 { font-size: clamp(4.2rem, 18vw, 6.8rem); line-height: .91; }
   .hero-title h1 em { margin-left: 9vw; }
   .hero-motion-note { margin-left: 10vw; }
   .hero-controls { bottom: 13%; left: 24px; }
@@ -199,7 +200,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
   .about-sheet { display: block; min-height: 0; padding: 21vw 24px; }
   .section-tag { font-size: 29px; }
   .about-sheet div { margin-top: 17vw; }
-  .about-sheet h2 { font-size: 4.6rem; }
+  .about-sheet h2 { font-size: 4.6rem; line-height: .93; }
   .about-sheet div > p { margin: 38px 0 0 14%; }
   .career-sheet { display: block; padding: 20vw 24px; }
   .career-list { margin-top: 15vw; }
