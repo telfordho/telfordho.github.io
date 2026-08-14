@@ -3,7 +3,7 @@
  * 保留明顯的游標推近與視差，但令每一下移動像鏡頭慢慢靠近靜物，而非裝飾性特效；每段均保留出版物式邊註或頁碼軌。
  */
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowDown, ArrowUpRight, ChevronRight, Move, Pause, Play, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Pause, Play, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const GALLERY = [
@@ -25,58 +25,29 @@ const GALLERY = [
   },
 ];
 
-function DetailPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const reduceMotion = useReducedMotion();
-  return (
-    <AnimatePresence>
-      {open && (
-        <motion.aside
-          className="detail-panel"
-          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: "100%" }}
-          animate={reduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
-          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: "100%" }}
-          transition={{ duration: 0.52, ease: [0.77, 0, 0.175, 1] }}
-        >
-          <div className="panel-bar">
-            <span>02 — 走進作品</span>
-            <button onClick={onClose} aria-label="關閉作品段落"><X size={19} /></button>
-          </div>
-          <div className="panel-copy">
-            <p>我的工作方式</p>
-            <h2>由需求開始，<br /><em>以清晰交付。</em></h2>
-          </div>
-          <div className="panel-steps">
-            {[
-              ["01", "對齊", "理解業務目標、使用者與限制。"],
-              ["02", "建構", "以可維護的前後端方案完成系統。"],
-              ["03", "加速", "把 AI 工具納入工程流程，提升交付效率。"],
-            ].map(([number, title, copy], index) => (
-              <motion.article
-                key={number}
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.16 + index * 0.11, duration: 0.42 }}
-              >
-                <span>{number}</span>
-                <div><h3>{title}</h3><p>{copy}</p></div>
-                <ChevronRight size={18} />
-              </motion.article>
-            ))}
-          </div>
-        </motion.aside>
-      )}
-    </AnimatePresence>
-  );
+type Symbol = "circle" | "cross" | null;
+
+const WINNING_LINES = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8],
+  [0, 3, 6], [1, 4, 7], [2, 5, 8],
+  [0, 4, 8], [2, 4, 6],
+];
+
+function getWinner(board: Symbol[]) {
+  for (const [first, second, third] of WINNING_LINES) {
+    if (board[first] && board[first] === board[second] && board[first] === board[third]) return board[first];
+  }
+  return null;
 }
 
 export default function Home() {
   const reduceMotion = useReducedMotion();
   const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [heroPointer, setHeroPointer] = useState({ x: 0, y: 0 });
   const [guitarPointer, setGuitarPointer] = useState({ x: 0, y: 0, active: false });
   const [cursor, setCursor] = useState({ x: -100, y: -100, visible: false });
+  const [board, setBoard] = useState<Symbol[]>(Array(9).fill(null));
 
   useEffect(() => {
     const onMove = (event: MouseEvent) => setCursor({ x: event.clientX, y: event.clientY, visible: true });
@@ -95,6 +66,14 @@ export default function Home() {
   };
 
   const motionLevel = reduceMotion || isPaused ? 0 : 1;
+  const winner = getWinner(board);
+  const isDraw = !winner && board.every(Boolean);
+  const nextSymbol: Exclude<Symbol, null> = board.filter(Boolean).length % 2 === 0 ? "circle" : "cross";
+  const placeSymbol = (index: number) => {
+    if (board[index] || winner || isDraw) return;
+    setBoard((current) => current.map((value, cellIndex) => cellIndex === index ? nextSymbol : value));
+  };
+  const resetGame = () => setBoard(Array(9).fill(null));
 
   return (
     <main className="quiet-site">
@@ -154,7 +133,7 @@ export default function Home() {
         <aside className="hero-rail"><span>01</span><i /><small>LOOK / MOVE / NOTICE</small></aside>
         <div className="hero-side-note">SYSTEM DESIGN<br />WITH CLARITY</div>
         <div className="hero-controls">
-          <button className="inverse-button" onClick={() => setDrawerOpen(true)}>了解工作方式 <ArrowUpRight size={16} /></button>
+          <a className="inverse-button" href="#contact">聯絡我 <ArrowDown size={16} /></a>
           <button className="ghost-button" onClick={() => setIsPaused((value) => !value)}>
             {isPaused ? <Play size={14} /> : <Pause size={14} />}{isPaused ? "播放動態" : "暫停動態"}
           </button>
@@ -192,39 +171,64 @@ export default function Home() {
           </motion.div>
         </AnimatePresence>
 
-        <article
-          className={`guitar-piece mode-${active} ${guitarPointer.active ? "is-close" : ""}`}
-          onMouseMove={onGuitarMove}
-          onMouseLeave={() => setGuitarPointer({ x: 0, y: 0, active: false })}
-        >
-          <motion.div
-            className="guitar-picture"
-            animate={{
-              x: guitarPointer.x * 70,
-              y: guitarPointer.y * 38,
-              rotateZ: guitarPointer.x * 7,
-              rotateY: guitarPointer.x * 14,
-              rotateX: guitarPointer.y * -10,
-              scale: guitarPointer.active ? 1.21 + Math.abs(guitarPointer.x) * .14 : 1,
-            }}
-            transition={{ type: "spring", stiffness: 142, damping: 16, mass: .72 }}
-          >
-            <motion.img
-              src="/manus-storage/monochrome-guitar-depth_6637baf4.png"
-              alt="近距離拍攝的黑白木結他琴弦與指板"
-              animate={{ x: guitarPointer.x * -56, y: guitarPointer.y * -31, scale: guitarPointer.active ? 1.25 : 1.06 }}
-              transition={{ type: "spring", stiffness: 150, damping: 18 }}
-            />
-            <span className="guitar-label">GUITAR / INTERACTION STUDY</span>
-            <span className="focus-mark">FOCUS {Math.round((guitarPointer.x + .5) * 100).toString().padStart(2, "0")}</span>
-            <span className="guitar-folio">PUBLIC REPOSITORY</span>
-          </motion.div>
-          <div className="guitar-note">
-            <Move size={15} />
-            <span>互動示範：游標推近時，鏡頭會跟隨焦點。</span>
-          </div>
-          <a className="repository-link" href={GALLERY[active].url} target="_blank" rel="noreferrer"><span>{GALLERY[active].action}</span><ArrowUpRight size={14} /></a>
-        </article>
+        <AnimatePresence mode="wait">
+          {active === 0 ? (
+            <motion.article
+              key="music-project"
+              className={`guitar-piece ${guitarPointer.active ? "is-close" : ""}`}
+              onMouseMove={onGuitarMove}
+              onMouseLeave={() => setGuitarPointer({ x: 0, y: 0, active: false })}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: .38 }}
+            >
+              <motion.div
+                className="guitar-picture"
+                animate={{
+                  x: guitarPointer.x * 70,
+                  y: guitarPointer.y * 38,
+                  rotateZ: guitarPointer.x * 7,
+                  rotateY: guitarPointer.x * 14,
+                  rotateX: guitarPointer.y * -10,
+                  scale: guitarPointer.active ? 1.21 + Math.abs(guitarPointer.x) * .14 : 1,
+                }}
+                transition={{ type: "spring", stiffness: 142, damping: 16, mass: .72 }}
+              >
+                <motion.img
+                  src="/manus-storage/monochrome-guitar-depth_6637baf4.png"
+                  alt="近距離拍攝的黑白木結他琴弦與指板"
+                  animate={{ x: guitarPointer.x * -56, y: guitarPointer.y * -31, scale: guitarPointer.active ? 1.25 : 1.06 }}
+                  transition={{ type: "spring", stiffness: 150, damping: 18 }}
+                />
+                <span className="guitar-label">MUSIC / INTERACTION STUDY</span>
+                <span className="focus-mark">FOCUS {Math.round((guitarPointer.x + .5) * 100).toString().padStart(2, "0")}</span>
+                <span className="guitar-folio">PUBLIC REPOSITORY</span>
+              </motion.div>
+              <a className="repository-link" href={GALLERY[active].url} target="_blank" rel="noreferrer"><span>{GALLERY[active].action}</span><ArrowUpRight size={14} /></a>
+            </motion.article>
+          ) : (
+            <motion.article
+              key="tic-tac-toe"
+              className="tictactoe-stage"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: .38 }}
+            >
+              <div className="game-heading"><span>REACT / TYPESCRIPT</span><p>{winner ? `${winner === "circle" ? "O" : "X"} won` : isDraw ? "Draw" : `${nextSymbol === "circle" ? "O" : "X"} to play`}</p></div>
+              <div className="tictactoe-board" aria-label="Tic-tac-toe 遊戲棋盤">
+                {board.map((symbol, index) => (
+                  <button key={index} onClick={() => placeSymbol(index)} aria-label={`第 ${index + 1} 格${symbol ? `：${symbol === "circle" ? "O" : "X"}` : ""}`} disabled={Boolean(symbol || winner || isDraw)}>
+                    {symbol === "circle" ? "O" : symbol === "cross" ? "X" : ""}
+                  </button>
+                ))}
+              </div>
+              <div className="game-actions"><button onClick={resetGame}><RotateCcw size={14} /> Reset</button><a href={GALLERY[active].url} target="_blank" rel="noreferrer">Open repository <ArrowUpRight size={14} /></a></div>
+              <span className="game-folio">PLAYGROUND / 3 × 3</span>
+            </motion.article>
+          )}
+        </AnimatePresence>
       </section>
 
       <section className="landscape-break" aria-label="山景分隔圖">
@@ -261,8 +265,6 @@ export default function Home() {
         <div className="footer-links"><a href="mailto:telfordho@gmail.com">telfordho@gmail.com <ArrowUpRight size={18} /></a><a href="https://github.com/telfordho" target="_blank" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/tingfungho" target="_blank" rel="noreferrer">LinkedIn</a></div>
         <span className="footer-folio">04 / © 2026</span>
       </footer>
-
-      <DetailPanel open={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </main>
   );
 }

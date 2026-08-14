@@ -57,6 +57,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
 .hero-rail small, .sheet-rail small, .about-rail small { font-size: 8px; writing-mode: vertical-rl; }
 .hero-controls { align-items: center; bottom: 8%; display: flex; gap: 20px; left: 8.8vw; position: absolute; z-index: 4; }
 .inverse-button, .ghost-button { align-items: center; cursor: pointer; display: inline-flex; font-size: 11px; font-weight: 600; gap: 20px; letter-spacing: .02em; min-height: 43px; padding: 0 15px; transition: transform .18s var(--ease), background .18s var(--ease), color .18s var(--ease); }
+.inverse-button { text-decoration: none; }
 .inverse-button { background: var(--ink); color: var(--paper); }
 .inverse-button:hover { background: var(--paper); color: var(--ink); transform: translateY(-3px); }
 .ghost-button { background: transparent; color: var(--ink); padding: 0; }
@@ -98,6 +99,18 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
 .repository-link { align-items: center; background: var(--ink); bottom: 14px; color: white; display: flex; font-size: 10px; gap: 20px; left: 84px; padding: 12px 14px; position: absolute; text-decoration: none; transition: transform .18s var(--ease), background .18s var(--ease); }
 .repository-link:hover { background: #555; transform: translateY(-4px); }
 .repository-link:active { transform: scale(.97); }
+.tictactoe-stage { height: 510px; margin: -215px 7vw 0 auto; max-width: 410px; position: relative; width: 36vw; }
+.game-heading { align-items: baseline; border-bottom: 1px solid var(--ink); display: flex; justify-content: space-between; padding-bottom: 11px; }
+.game-heading span, .game-heading p, .game-folio { font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .1em; margin: 0; }
+.game-heading p { font-size: 10px; }
+.tictactoe-board { background: var(--ink); display: grid; gap: 1px; grid-template-columns: repeat(3, 1fr); margin: 24px 0 0 auto; width: min(31vw, 320px); }
+.tictactoe-board button { align-items: center; aspect-ratio: 1; background: var(--paper); color: var(--ink); cursor: pointer; display: flex; font-family: "DM Serif Display", serif; font-size: clamp(2.8rem, 6vw, 5.6rem); justify-content: center; line-height: 1; padding: 0; transition: background .17s var(--ease), color .17s var(--ease), transform .17s var(--ease); }
+.tictactoe-board button:not(:disabled):hover { background: var(--ink); color: var(--paper); transform: scale(.94); }
+.tictactoe-board button:disabled { cursor: default; }
+.game-actions { align-items: center; display: flex; gap: 14px; justify-content: flex-end; margin-top: 16px; }
+.game-actions button, .game-actions a { align-items: center; background: transparent; color: var(--ink); cursor: pointer; display: flex; font-family: "IBM Plex Mono", monospace; font-size: 9px; gap: 7px; letter-spacing: .06em; padding: 0; text-decoration: none; transition: opacity .18s var(--ease); }
+.game-actions button:hover, .game-actions a:hover { opacity: .55; }
+.game-folio { bottom: 11px; left: 0; position: absolute; }
 
 .landscape-break { height: min(54vw, 610px); overflow: hidden; position: relative; }
 .landscape-break::after { background: linear-gradient(0deg, rgba(0,0,0,.35), transparent 42%); content: ""; inset: 0; position: absolute; }
@@ -179,6 +192,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
   .guitar-picture { height: 390px; width: 74vw; }
   .guitar-note { bottom: 63px; left: -20px; }
   .repository-link { bottom: 13px; left: 0; }
+  .tictactoe-stage { height: 455px; margin: 22vw 0 0 auto; width: 78vw; }
+  .tictactoe-board { width: 74vw; }
   .landscape-break { height: 79vw; }
   .landscape-break p { bottom: 13%; font-size: 3.4rem; left: 24px; max-width: 250px; }
   .about-sheet { display: block; min-height: 0; padding: 21vw 24px; }
