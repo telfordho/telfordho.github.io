@@ -1,197 +1,64 @@
 /**
- * Style reminder — 活版節拍：瑞士編輯設計、非對稱排版、暖白與炭黑底色，活字橘只用於互動焦點。
- * 動態服務閱讀與導覽：保留可見的節奏、短促回饋與 reduced-motion 支援。
+ * Style reminder — 靜景動態：黑白、寬闊留白、去飽和風景與極少元素。
+ * 保留明顯的游標推近與視差，但令每一下移動像鏡頭慢慢靠近靜物，而非裝飾性特效；每段均保留出版物式邊註或頁碼軌。
  */
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import {
-  ArrowDown,
-  ArrowUpRight,
-  ChevronRight,
-  CircleDot,
-  Layers3,
-  MousePointer2,
-  Pause,
-  Play,
-  RotateCcw,
-  Sparkles,
-  X,
-} from "lucide-react";
+import { ArrowDown, ArrowUpRight, ChevronRight, Move, Pause, Play, Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-type ConceptKey = "field" | "atlas";
-
-const concepts: Record<
-  ConceptKey,
+const GALLERY = [
   {
-    index: string;
-    name: string;
-    english: string;
-    headline: string;
-    summary: string;
-    image: string;
-    imageAlt: string;
-    mode: string;
-    action: string;
-    interaction: string;
-    motion: string;
-    accent: string;
-  }
-> = {
-  field: {
-    index: "01",
-    name: "磁場首頁",
-    english: "SIGNAL FIELD",
-    headline: "把游標放上來，\n讓畫面替我說明。",
-    summary:
-      "以游標驅動的視差、漂移與縮放，將第一眼的自我介紹變成一個可探索的視覺空間。",
-    image: "/manus-storage/editorial-signal-hero_14ece049.png",
-    imageAlt: "暖白、橘色與黑色元素組成的抽象編輯設計作品",
-    mode: "CURSOR-LED",
-    action: "啟動磁場",
-    interaction: "移動游標，觀察主視覺層次如何錯位與聚焦。",
-    motion: "滑鼠視差 · 作品卡 hover · 游標磁吸",
-    accent: "#FF5B2E",
+    id: "01",
+    name: "視線拉近",
+    label: "STILL / PULL",
+    copy: "先別急著看完。留白令移動有位置，焦點才知道要往哪裡走。",
   },
-  atlas: {
-    index: "02",
-    name: "流程展開",
-    english: "PROCESS ATLAS",
-    headline: "不是展示結果；\n是邀請你走進決策過程。",
-    summary:
-      "把作品的背景、取捨與成果拆成可逐層展開的敘事。每一下點擊都讓畫面向下一個決策前進。",
-    image: "/manus-storage/process-atlas-hero_b20a56cf.png",
-    imageAlt: "銀色、橘色、黑色和半透明材質組成的抽象編輯工作檯",
-    mode: "NARRATIVE-LED",
-    action: "展開流程",
-    interaction: "點擊按鈕，讓設計脈絡逐段編排到你的眼前。",
-    motion: "內容揭露 · 版面重排 · 進度推進",
-    accent: "#FF5B2E",
+  {
+    id: "02",
+    name: "兩種讀法",
+    label: "RHYTHM / UNFOLD",
+    copy: "同一個作品，可以被靜看，也可以被推近。你正在決定它的閱讀速度。",
   },
-};
-
-const processSteps = [
-  { number: "01", label: "Context", copy: "先理解人與情境。" },
-  { number: "02", label: "Tension", copy: "找出最需要被推動的一點。" },
-  { number: "03", label: "Shift", copy: "用能被感受的改變完成收束。" },
 ];
 
-function ProgressRail({ active }: { active: ConceptKey }) {
-  return (
-    <aside className="progress-rail" aria-label="概念選擇">
-      <span className="rail-label">CHAPTER</span>
-      <div className="rail-line" aria-hidden="true">
-        <motion.div
-          className="rail-fill"
-          animate={{ height: active === "field" ? "39%" : "77%" }}
-          transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        />
-      </div>
-      <span className="rail-number">0{active === "field" ? "1" : "2"}</span>
-    </aside>
-  );
-}
-
-function HeroArt({
-  concept,
-  pointer,
-  isPaused,
-}: {
-  concept: (typeof concepts)[ConceptKey];
-  pointer: { x: number; y: number };
-  isPaused: boolean;
-}) {
-  const shouldReduce = useReducedMotion();
-  const movement = shouldReduce || isPaused ? 0 : 1;
-
-  return (
-    <motion.div
-      className="hero-art"
-      layout
-      animate={isPaused || shouldReduce ? { y: 0 } : { y: [-12, 12, -12] }}
-      transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <motion.div
-        className="hero-art-shadow"
-        animate={{ x: pointer.x * -48 * movement, y: pointer.y * -35 * movement, rotate: pointer.x * -4 * movement }}
-        transition={{ type: "spring", stiffness: 92, damping: 16 }}
-      />
-      <motion.div
-        className="hero-art-frame"
-        animate={{
-          x: pointer.x * 74 * movement,
-          y: pointer.y * 52 * movement,
-          rotate: pointer.x * 5.5 * movement,
-          scale: isPaused ? 1 : 1.065,
-        }}
-        transition={{ type: "spring", stiffness: 86, damping: 15 }}
-      >
-        <motion.img
-          key={concept.image}
-          src={concept.image}
-          alt={concept.imageAlt}
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
-        />
-      </motion.div>
-      <motion.div
-        className="art-stamp"
-        animate={{ x: pointer.x * -84 * movement, y: pointer.y * 60 * movement, rotate: -8 + pointer.x * -8 * movement }}
-        transition={{ type: "spring", stiffness: 106, damping: 17 }}
-      >
-        <span>MOVE</span>
-        <ArrowUpRight size={18} strokeWidth={2.4} />
-      </motion.div>
-      <div className="art-index" aria-hidden="true">
-        <span>PORTFOLIO</span>
-        <span>{concept.index} / 02</span>
-      </div>
-    </motion.div>
-  );
-}
-
-function ProcessDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const shouldReduce = useReducedMotion();
+function DetailPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const reduceMotion = useReducedMotion();
   return (
     <AnimatePresence>
       {open && (
         <motion.aside
-          className="process-drawer"
-          aria-label="流程展開示範"
-          initial={shouldReduce ? { opacity: 0 } : { clipPath: "inset(0 0 0 100%)" }}
-          animate={shouldReduce ? { opacity: 1 } : { clipPath: "inset(0 0 0 0%)" }}
-          exit={shouldReduce ? { opacity: 0 } : { clipPath: "inset(0 0 0 100%)" }}
-          transition={{ duration: 0.55, ease: [0.77, 0, 0.175, 1] }}
+          className="detail-panel"
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: "100%" }}
+          animate={reduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
+          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: "100%" }}
+          transition={{ duration: 0.52, ease: [0.77, 0, 0.175, 1] }}
         >
-          <div className="drawer-topline">
-            <span>INTERACTION / 02</span>
-            <button className="icon-button" onClick={onClose} aria-label="關閉流程展開">
-              <X size={20} />
-            </button>
+          <div className="panel-bar">
+            <span>02 — 走進作品</span>
+            <button onClick={onClose} aria-label="關閉作品段落"><X size={19} /></button>
           </div>
-          <div className="drawer-title-wrap">
-            <p>點擊後，不只是彈出視窗。</p>
-            <h2>內容順著<br />決策展開。</h2>
+          <div className="panel-copy">
+            <p>不是一下子展示所有內容。</p>
+            <h2>靠近一點，<br /><em>再聽清楚。</em></h2>
           </div>
-          <div className="process-list">
-            {processSteps.map((step, index) => (
+          <div className="panel-steps">
+            {[
+              ["01", "看見", "畫面先留下空間。"],
+              ["02", "靠近", "互動把焦點拉到眼前。"],
+              ["03", "理解", "內容才慢慢說出原因。"],
+            ].map(([number, title, copy], index) => (
               <motion.article
-                className="process-step"
-                key={step.number}
-                initial={{ opacity: 0, y: 20 }}
+                key={number}
+                initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 + index * 0.1, duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
+                transition={{ delay: 0.16 + index * 0.11, duration: 0.42 }}
               >
-                <span>{step.number}</span>
-                <div>
-                  <h3>{step.label}</h3>
-                  <p>{step.copy}</p>
-                </div>
+                <span>{number}</span>
+                <div><h3>{title}</h3><p>{copy}</p></div>
                 <ChevronRight size={18} />
               </motion.article>
             ))}
           </div>
-          <p className="drawer-note">這是一種讓訪客主動探索作品過程的互動示範。</p>
         </motion.aside>
       )}
     </AnimatePresence>
@@ -199,238 +66,189 @@ function ProcessDrawer({ open, onClose }: { open: boolean; onClose: () => void }
 }
 
 export default function Home() {
-  const [active, setActive] = useState<ConceptKey>("field");
-  const [pointer, setPointer] = useState({ x: 0, y: 0 });
+  const reduceMotion = useReducedMotion();
+  const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [cursor, setCursor] = useState({ x: -120, y: -120, visible: false });
-  const [pianoPointer, setPianoPointer] = useState({ x: 0, y: 0, active: false });
-  const shouldReduce = useReducedMotion();
-  const concept = concepts[active];
+  const [heroPointer, setHeroPointer] = useState({ x: 0, y: 0 });
+  const [guitarPointer, setGuitarPointer] = useState({ x: 0, y: 0, active: false });
+  const [cursor, setCursor] = useState({ x: -100, y: -100, visible: false });
 
   useEffect(() => {
-    const onMove = (event: MouseEvent) => {
-      setCursor({ x: event.clientX, y: event.clientY, visible: true });
-    };
+    const onMove = (event: MouseEvent) => setCursor({ x: event.clientX, y: event.clientY, visible: true });
     window.addEventListener("mousemove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
-  const handleStageMove = (event: React.MouseEvent<HTMLElement>) => {
+  const onHeroMove = (event: React.MouseEvent<HTMLElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    setPointer({
-      x: (event.clientX - rect.left) / rect.width - 0.5,
-      y: (event.clientY - rect.top) / rect.height - 0.5,
-    });
+    setHeroPointer({ x: (event.clientX - rect.left) / rect.width - 0.5, y: (event.clientY - rect.top) / rect.height - 0.5 });
   };
 
-  const switchConcept = (key: ConceptKey) => {
-    setActive(key);
-    setDrawerOpen(false);
-    setPointer({ x: 0, y: 0 });
-  };
-
-  const activateExperience = () => {
-    if (active === "atlas") {
-      setDrawerOpen(true);
-    } else {
-      setIsPaused(false);
-      setPointer({ x: 0.33, y: -0.18 });
-    }
-  };
-
-  const handlePianoMove = (event: React.MouseEvent<HTMLElement>) => {
+  const onGuitarMove = (event: React.MouseEvent<HTMLElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    setPianoPointer({
-      x: (event.clientX - rect.left) / rect.width - 0.5,
-      y: (event.clientY - rect.top) / rect.height - 0.5,
-      active: true,
-    });
+    setGuitarPointer({ x: (event.clientX - rect.left) / rect.width - 0.5, y: (event.clientY - rect.top) / rect.height - 0.5, active: true });
   };
+
+  const motionLevel = reduceMotion || isPaused ? 0 : 1;
 
   return (
-    <main className="portfolio-shell">
+    <main className="quiet-site">
       <motion.div
-        className={`custom-cursor ${cursor.visible ? "is-visible" : ""}`}
+        className={`quiet-cursor ${cursor.visible ? "visible" : ""}`}
         animate={{ x: cursor.x, y: cursor.y }}
-        transition={{ type: "spring", stiffness: 660, damping: 38, mass: 0.42 }}
+        transition={{ type: "spring", mass: 0.24, stiffness: 580, damping: 30 }}
         aria-hidden="true"
-      >
-        <span />
-      </motion.div>
+      ><span /></motion.div>
 
-      <ProgressRail active={active} />
-
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="返回頁面頂部">
-          <img src="/manus-storage/typeset-orange-mark_4254977e.png" alt="" />
-          <span className="brand-word"><i />STUDIO<br />NOTE</span>
+      <header className="quiet-header">
+        <a href="#home" className="quiet-brand" aria-label="返回首頁">
+          <span className="brand-mark"><i /><b /></span>
+          <span className="brand-name">STUDIO<br />NOTE</span>
         </a>
-        <div className="header-meta">
-          <span>PORTFOLIO STUDY</span>
-          <span className="dot-separator" />
-          <span>2026</span>
-        </div>
-        <a className="header-link" href="#comparison">
-          看互動說明 <ArrowDown size={15} />
-        </a>
+        <nav aria-label="主要導覽">
+          <a href="#work">Projects</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <span className="header-year">2026</span>
       </header>
 
-      <section className="concept-nav" aria-label="示範選擇">
-        {(Object.keys(concepts) as ConceptKey[]).map((key) => (
-          <button
-            key={key}
-            className={`concept-tab ${active === key ? "is-active" : ""}`}
-            onClick={() => switchConcept(key)}
-            aria-pressed={active === key}
-          >
-            <span>{concepts[key].index}</span>
-            <strong>{concepts[key].name}</strong>
-            <em>{concepts[key].english}</em>
-          </button>
-        ))}
-      </section>
-
       <section
-        id="top"
-        className="hero-stage"
-        onMouseMove={handleStageMove}
-        onMouseLeave={() => setPointer({ x: 0, y: 0 })}
+        id="home"
+        className="still-hero"
+        onMouseMove={onHeroMove}
+        onMouseLeave={() => setHeroPointer({ x: 0, y: 0 })}
       >
-        <div className="hero-copy">
+        <motion.div
+          className="still-photo"
+          animate={{
+            x: heroPointer.x * -72 * motionLevel,
+            y: heroPointer.y * -38 * motionLevel,
+            scale: 1.04 + Math.abs(heroPointer.x) * 0.12 * motionLevel,
+          }}
+          transition={{ type: "spring", stiffness: 72, damping: 18 }}
+        >
+          <img src="/manus-storage/monochrome-stillscape-hero_4a8463f6.png" alt="寧靜住宅街景與電線桿的黑白攝影" />
+        </motion.div>
+        <motion.div
+          className="hero-weather-line"
+          animate={{ x: heroPointer.x * 114 * motionLevel, y: heroPointer.y * 55 * motionLevel }}
+          transition={{ type: "spring", stiffness: 95, damping: 17 }}
+        />
+        <div className="hero-title">
+          <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .45 }}>PORTFOLIO / 2026</motion.p>
+          <motion.h1 initial={{ opacity: 0, y: 46 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7, ease: [0.23, 1, 0.32, 1] }}>
+            先留白。<br /><em>再靠近。</em>
+          </motion.h1>
+          <motion.span
+            className="hero-motion-note"
+            animate={isPaused || reduceMotion ? { opacity: .58 } : { y: [-3, 5, -3] }}
+            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+          >游標先移動，景色才開始回應。</motion.span>
+        </div>
+        <aside className="hero-rail"><span>01</span><i /><small>LOOK / MOVE / NOTICE</small></aside>
+        <div className="hero-side-note">靜景裡的<br />動態筆記</div>
+        <div className="hero-controls">
+          <button className="inverse-button" onClick={() => setDrawerOpen(true)}>進入作品 <ArrowUpRight size={16} /></button>
+          <button className="ghost-button" onClick={() => setIsPaused((value) => !value)}>
+            {isPaused ? <Play size={14} /> : <Pause size={14} />}{isPaused ? "播放動態" : "暫停動態"}
+          </button>
+        </div>
+        <a className="hero-scroll" href="#work">SCROLL <ArrowDown size={14} /></a>
+      </section>
+
+      <section id="work" className="work-sheet">
+        <div className="sheet-topline">
+          <span>projects.</span>
+          <span>兩種閱讀方式。<br />一次只看一件事。</span>
+        </div>
+        <aside className="sheet-rail"><span>02</span><i /><small>PROJECT / READING MODES</small></aside>
+        <div className="gallery-tabs" role="tablist" aria-label="互動示範選擇">
+          {GALLERY.map((item, index) => (
+            <button key={item.id} role="tab" aria-selected={active === index} className={active === index ? "selected" : ""} onClick={() => setActive(index)}>
+              <span>{item.id}</span><strong>{item.name}</strong><em>{item.label}</em>
+            </button>
+          ))}
+        </div>
+
+        <AnimatePresence mode="wait">
           <motion.div
-            className="eyebrow"
-            key={concept.mode}
-            initial={{ opacity: 0, y: 12 }}
+            className="gallery-copy"
+            key={active}
+            initial={{ opacity: 0, y: 19 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: .36 }}
           >
-            <CircleDot size={14} /> {concept.mode}
+            <span>{GALLERY[active].label}</span>
+            <h2>{GALLERY[active].name}</h2>
+            <p>{GALLERY[active].copy}</p>
+            <div className="reading-ledger"><span>PAGE {active + 1} / 2</span><span>{active === 0 ? "先看琴弦的方向。" : "再比較移動的距離。"}</span></div>
           </motion.div>
+        </AnimatePresence>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={concept.headline}
-              initial={shouldReduce ? { opacity: 0 } : { opacity: 0, y: 36, clipPath: "inset(0 0 100% 0)" }}
-              animate={shouldReduce ? { opacity: 1 } : { opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)" }}
-              exit={shouldReduce ? { opacity: 0 } : { opacity: 0, y: -22, clipPath: "inset(100% 0 0 0)" }}
-              transition={{ duration: 0.62, ease: [0.77, 0, 0.175, 1] }}
-            >
-              <h1>{concept.headline.split("\n").map((line) => <span key={line}>{line}</span>)}</h1>
-              <p>{concept.summary}</p>
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="hero-actions">
-            <button className="primary-action" onClick={activateExperience}>
-              <span>{concept.action}</span>
-              <ArrowUpRight size={19} />
-            </button>
-            <button
-              className="pause-action"
-              onClick={() => setIsPaused((current) => !current)}
-              aria-pressed={isPaused}
-            >
-              {isPaused ? <Play size={15} /> : <Pause size={15} />}
-              {isPaused ? "恢復動態" : "暫停動態"}
-            </button>
-          </div>
-        </div>
-
-        <HeroArt concept={concept} pointer={pointer} isPaused={isPaused} />
-
-        <motion.div
-          className="hero-orbit orbit-a"
-          animate={isPaused || shouldReduce ? {} : { rotate: 360 }}
-          transition={{ repeat: Infinity, ease: "linear", duration: 16 }}
-          aria-hidden="true"
-        >
-          <span />
-        </motion.div>
-        <motion.div
-          className="hero-orbit orbit-b"
-          animate={isPaused || shouldReduce ? {} : { rotate: -360 }}
-          transition={{ repeat: Infinity, ease: "linear", duration: 24 }}
-          aria-hidden="true"
-        >
-          <span />
-        </motion.div>
-      </section>
-
-      <section id="comparison" className="interaction-notes">
-        <div className="notes-label">
-          <span>INTERACTION<br />NOTES</span>
-          <MousePointer2 size={18} />
-        </div>
-        <div className="notes-content">
-          <p className="notes-kicker">正在剪接的段落 / {concept.index}</p>
-          <h2>{concept.name}</h2>
-          <p>{concept.interaction}</p>
-        </div>
-        <div className="notes-motion">
-          <Sparkles size={16} />
-          <span>{concept.motion}</span>
-        </div>
-      </section>
-
-      <section className="sample-projects" aria-label="互動細節示範">
         <article
-          className={`project-card detail-card ${pianoPointer.active ? "is-exploring" : ""}`}
-          onMouseMove={handlePianoMove}
-          onMouseLeave={() => setPianoPointer({ x: 0, y: 0, active: false })}
+          className={`guitar-piece mode-${active} ${guitarPointer.active ? "is-close" : ""}`}
+          onMouseMove={onGuitarMove}
+          onMouseLeave={() => setGuitarPointer({ x: 0, y: 0, active: false })}
         >
-          <div className="card-caption">
-            <span>MICRO / 01</span>
-            <h2>Hover，讓琴鍵<br />向你靠近。</h2>
-            <p>游標在左，琴鍵往左傾；游標靠近，鏡頭立刻推進。讓縮放本身成為作品的節奏。</p>
-            <button onClick={() => setPianoPointer({ x: 0.42, y: -0.18, active: true })}>推近琴鍵 <ChevronRight size={16} /></button>
-          </div>
           <motion.div
-            className="detail-image-wrap piano-image-wrap"
+            className="guitar-picture"
             animate={{
-              x: pianoPointer.x * 43,
-              y: pianoPointer.y * 25,
-              rotate: 4 + pianoPointer.x * 10,
-              scale: pianoPointer.active ? 1.16 + Math.abs(pianoPointer.x) * 0.11 : 1,
+              x: guitarPointer.x * 70,
+              y: guitarPointer.y * 38,
+              rotateZ: guitarPointer.x * 7,
+              rotateY: guitarPointer.x * 14,
+              rotateX: guitarPointer.y * -10,
+              scale: guitarPointer.active ? 1.21 + Math.abs(guitarPointer.x) * .14 : 1,
             }}
-            transition={{ type: "spring", stiffness: 155, damping: 16, mass: 0.7 }}
+            transition={{ type: "spring", stiffness: 142, damping: 16, mass: .72 }}
           >
             <motion.img
-              src="/manus-storage/piano-editorial-hover_6296c54f.png"
-              alt="以近距離廣角拍攝、具有強烈景深的黑色三角鋼琴琴鍵"
-              animate={{
-                scale: pianoPointer.active ? 1.22 + Math.abs(pianoPointer.y) * 0.16 : 1.05,
-                x: pianoPointer.x * -38,
-                y: pianoPointer.y * -24,
-              }}
-              transition={{ type: "spring", stiffness: 145, damping: 17, mass: 0.72 }}
+              src="/manus-storage/monochrome-guitar-depth_6637baf4.png"
+              alt="近距離拍攝的黑白木結他琴弦與指板"
+              animate={{ x: guitarPointer.x * -56, y: guitarPointer.y * -31, scale: guitarPointer.active ? 1.25 : 1.06 }}
+              transition={{ type: "spring", stiffness: 150, damping: 18 }}
             />
-            <span className="image-label">PIANO / DEPTH</span>
-            <span className="piano-focus">FOCUS {Math.round((pianoPointer.x + 0.5) * 99).toString().padStart(2, "0")}</span>
+            <span className="guitar-label">GUITAR / DEPTH</span>
+            <span className="focus-mark">FOCUS {Math.round((guitarPointer.x + .5) * 100).toString().padStart(2, "0")}</span>
+            <span className="guitar-folio">{active === 0 ? "STILL READING" : "MOTION READING"}</span>
           </motion.div>
-        </article>
-        <article className="project-card control-card">
-          <div className="control-topline">
-            <span>CONTROL / 02</span>
-            <Layers3 size={18} />
+          <div className="guitar-note">
+            <Move size={15} />
+            <span>把游標放進琴弦，鏡頭便會向它靠近。</span>
           </div>
-          <h2>把動態的主導權<br />交回訪客。</h2>
-          <p>想靜下來？一鍵停下非必要動態。系統偏好降低動態時，畫面亦會自動收斂。</p>
-          <div className="control-buttons">
-            <button className={isPaused ? "active" : ""} onClick={() => setIsPaused(true)}><Pause size={15} /> 暫停</button>
-            <button className={!isPaused ? "active" : ""} onClick={() => setIsPaused(false)}><Play size={15} /> 播放</button>
-            <button onClick={() => setPointer({ x: 0, y: 0 })}><RotateCcw size={15} /> 重置</button>
-          </div>
-          <p className="margin-note">MARGIN NOTE / 動態不是強迫觀看，而是讓內容有被推進的理由。</p>
+          <button onClick={() => setGuitarPointer({ x: .37, y: -.22, active: true })}>推近吉他 <Plus size={14} /></button>
         </article>
       </section>
 
-      <footer className="site-footer">
-        <p>兩種動態語言，哪一種更像你？</p>
-        <a href="#top">回到頂部 <ArrowUpRight size={17} /></a>
+      <section className="landscape-break" aria-label="山景分隔圖">
+        <motion.img
+          src="/manus-storage/monochrome-hills-divider_c29a134b.png"
+          alt="雲霧下的黑白山坡"
+          animate={isPaused || reduceMotion ? {} : { scale: [1.02, 1.09, 1.02], x: [0, -12, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <p>留一段空白，讓目光回來。</p>
+      </section>
+
+      <section id="about" className="about-sheet">
+        <p className="section-tag">about.</p>
+        <aside className="about-rail"><span>03</span><i /><small>WHY THIS MOVES</small></aside>
+        <div>
+          <h2>看見之前，<br /><em>先讓畫面安靜。</em></h2>
+          <p>我不是要把每個位置都填滿；我想留下可以移動、比較和決定的空間。每一個互動，都是請你再靠近一點。</p>
+        </div>
+      </section>
+
+      <footer id="contact" className="quiet-footer">
+        <p>contact.</p>
+        <a href="mailto:hello@example.com">想讓一件作品更易被看見？ <ArrowUpRight size={18} /></a>
+        <span className="footer-folio">04 / © 2026</span>
       </footer>
 
-      <ProcessDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <DetailPanel open={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </main>
   );
 }
