@@ -183,6 +183,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
   .hero-title { left: 24px; top: 16%; }
   .hero-title h1 { font-size: clamp(4.2rem, 18vw, 6.8rem); line-height: .91; }
   .hero-title h1 em { margin-left: 9vw; }
+  .quiet-site[data-language="zh"] .hero-title h1 { font-size: clamp(3.7rem, 15vw, 5.15rem); letter-spacing: -.09em; line-height: .95; }
+  .quiet-site[data-language="zh"] .hero-title h1 .headline-lead { font-size: .8em; }
+  .quiet-site[data-language="zh"] .hero-title h1 .headline-focus { font-size: .88em; letter-spacing: -.11em; white-space: nowrap; }
   .hero-motion-note { margin-left: 10vw; }
   .hero-controls { bottom: 13%; left: 24px; }
   .hero-scroll { bottom: 5%; right: 24px; }
@@ -208,10 +211,17 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
   .tictactoe-board { width: 74vw; }
   .landscape-break { height: 79vw; }
   .landscape-break p { bottom: 13%; font-size: 3.4rem; left: 24px; max-width: 250px; }
+  .landscape-break p span { display: inline-block; }
+  .quiet-site[data-language="en"] .landscape-break p { font-size: clamp(2.35rem, 10vw, 3rem); letter-spacing: -.075em; max-width: calc(100vw - 48px); }
+  .quiet-site[data-language="zh"] .landscape-break p { font-size: clamp(2.55rem, 11vw, 3.4rem); letter-spacing: -.08em; max-width: calc(100vw - 48px); white-space: nowrap; }
   .about-sheet { display: block; min-height: 0; padding: 21vw 24px; }
   .section-tag { font-size: 29px; }
   .about-sheet div { margin-top: 17vw; }
   .about-sheet h2 { font-size: 4.6rem; line-height: .93; }
+  .quiet-site[data-language="en"] .about-sheet h2 { font-size: clamp(2.7rem, 11.5vw, 3.6rem); letter-spacing: -.085em; line-height: .91; }
+  .quiet-site[data-language="en"] .about-sheet h2 .headline-lead { font-size: .8em; letter-spacing: -.07em; white-space: nowrap; }
+  .quiet-site[data-language="zh"] .about-sheet h2 { font-size: clamp(3.45rem, 14vw, 4.6rem); letter-spacing: -.1em; line-height: .96; }
+  .quiet-site[data-language="zh"] .about-sheet h2 .headline-focus { font-size: .9em; letter-spacing: -.12em; white-space: nowrap; }
   .about-sheet div > p { margin: 38px 0 0 14%; }
   .career-sheet { display: block; padding: 20vw 24px; }
   .career-list { margin-top: 15vw; }
