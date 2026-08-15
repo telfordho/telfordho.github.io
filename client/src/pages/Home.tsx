@@ -90,7 +90,7 @@ const CONTENT = {
     hero: {
       role: "TELFORD HO / SYSTEM ANALYST & FULL-STACK ENGINEER",
       lead: "Make it simple,",
-      focus: "start from zero.",
+      focus: "from zero to hero.",
       note: "5+ years in full-stack engineering, system design, and AI-enabled delivery.",
       rail: "LOOK / MOVE / NOTICE",
       side: ["SYSTEM DESIGN", "WITH CLARITY"],
@@ -146,8 +146,8 @@ const CONTENT = {
     },
     career: {
       eyebrow: "EXPERIENCE / SKILLS",
-      lead: "Listen first,",
-      focus: "tell me what you need",
+      lead: "Let me hear",
+      focus: "what you need",
       entries: [
         ["2021 — NOW", "FWD Insurance", "System Analyst; previously Senior Analyst Programmer and Analyst Programmer. Responsible for insurance system design, Angular full-stack optimization, code reviews, and generative AI workflow integration."],
         ["2019 — 2021", "dRoW Limited", "Software Engineer. Built responsive interfaces with Angular and an automated email dispatch system using Node.js and SendGrid."],
