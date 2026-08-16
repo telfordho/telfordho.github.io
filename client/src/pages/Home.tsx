@@ -256,7 +256,7 @@ export default function Home() {
         <div className="hero-title">
           <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .45 }}>{content.hero.role}</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 46 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7, ease: [0.23, 1, 0.32, 1] }}>
-            <span className="headline-lead">{content.hero.lead}</span><br /><em>{content.hero.focus}</em>
+            <span className="headline-lead">{content.hero.lead}</span><br /><em className="headline-focus">{content.hero.focus}</em>
           </motion.h1>
           <motion.span className="hero-motion-note" animate={isPaused || reduceMotion ? { opacity: .58 } : { y: [-3, 5, -3] }} transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}>{content.hero.note}</motion.span>
         </div>
@@ -305,7 +305,7 @@ export default function Home() {
 
       <section className="landscape-break" aria-label={content.landscape.alt}><motion.img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663736439775/ZvenBXRPcYEOQcJG.png" alt={content.landscape.alt} animate={isPaused || reduceMotion ? {} : { scale: [1.02, 1.09, 1.02], x: [0, -12, 0] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} /><p>{content.landscape.text}</p></section>
 
-      <section id="about" className="about-sheet"><p className="section-tag">{content.about.tag}</p><aside className="about-rail"><span>03</span><i /><small>{content.about.rail}</small></aside><div><h2><span className="headline-lead">{content.about.lead}</span><br /><em>{content.about.focus}</em></h2><p>{content.about.copy}</p></div></section>
+      <section id="about" className="about-sheet"><p className="section-tag">{content.about.tag}</p><aside className="about-rail"><span>03</span><i /><small>{content.about.rail}</small></aside><div><h2><span className="headline-lead">{content.about.lead}</span><br /><em className="headline-focus">{content.about.focus}</em></h2><p>{content.about.copy}</p></div></section>
 
       <section className="career-sheet" aria-label={content.career.eyebrow}>
         <div className="career-intro"><span>{content.career.eyebrow}</span><h2><span className="headline-lead">{content.career.lead}</span><br />{content.career.focus}</h2></div>
